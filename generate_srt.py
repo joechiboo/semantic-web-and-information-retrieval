@@ -12,6 +12,7 @@ import requests
 from youtube_transcript_api import YouTubeTranscriptApi
 
 DOCS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
+SRT_DIR = os.path.join(DOCS_DIR, "srt")
 TIMESTAMPS_FILE = os.path.join(DOCS_DIR, "timestamps.json")
 
 # All videos: (video_id, srt_filename)
@@ -166,7 +167,8 @@ def make_srt_entry(text, start, end):
 
 def generate_srt(video_id, srt_name):
     """Generate a Chinese SRT file for a video."""
-    srt_path = os.path.join(DOCS_DIR, f"{srt_name}.srt")
+    os.makedirs(SRT_DIR, exist_ok=True)
+    srt_path = os.path.join(SRT_DIR, f"{srt_name}.srt")
 
     print(f"\n{'='*60}")
     print(f"Processing: {srt_name}")
@@ -243,9 +245,10 @@ def update_timestamps(video_id, snippets):
 def main():
     # Determine which videos to process
     existing_srts = set()
-    for f in os.listdir(DOCS_DIR):
-        if f.endswith(".srt"):
-            existing_srts.add(f.replace(".srt", ""))
+    if os.path.isdir(SRT_DIR):
+        for f in os.listdir(SRT_DIR):
+            if f.endswith(".srt"):
+                existing_srts.add(f.replace(".srt", ""))
 
     to_process = [(vid, name) for vid, name in VIDEOS if name not in existing_srts]
 

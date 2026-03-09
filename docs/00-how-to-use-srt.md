@@ -67,23 +67,23 @@ SRT（SubRip Text）是最常見的字幕格式，包含：
 
 | 影片 | 字幕檔 | YouTube 連結 |
 |------|--------|-------------|
-| 01 - 資訊檢索導論 | `01-introduction-to-information-retrieval.srt` | [連結](https://www.youtube.com/watch?v=kNkCfaH2rxc) |
-| 02 - 語意網路簡介 | `02-simple-introduction-to-semantic-networks.srt` | [連結](https://www.youtube.com/watch?v=K-yrnyvqXGo) |
-| 03 - 語意網路補充資訊 | `03-semantic-networks-additional-info.srt` | [連結](https://www.youtube.com/watch?v=3PgIC9KcSNE) |
-| 04 - 語意網路詳細介紹 | `04-detailed-introduction-to-semantic-networks.srt` | [連結](https://www.youtube.com/watch?v=sY0kbo251A4) |
-| 05 - 詞項-文件矩陣 | `05-term-document-matrices.srt` | [連結](https://www.youtube.com/watch?v=e81nC0LO0A8) |
-| 06 - 倒排索引 | `06-the-inverted-index.srt` | [連結](https://www.youtube.com/watch?v=Wf6HbY2PQDw) |
-| 07 - 使用倒排索引的查詢處理 | `07-query-processing-with-inverted-index.srt` | [連結](https://www.youtube.com/watch?v=5KbynCj7yRQ) |
-| 08 - 布林檢索模型 | `08-boolean-retrieval-model.srt` | [連結](https://www.youtube.com/watch?v=TIN_02pJU-Y) |
-| 09 - 片語查詢與位置索引 | `09-phrase-queries-and-positional-indexes.srt` | [連結](https://www.youtube.com/watch?v=QVVvx_Csd2I) |
-| 10 - 排序檢索導論 | `10-introducing-ranked-retrieval.srt` | [連結](https://www.youtube.com/watch?v=ZrNmCtSrL48) |
-| 11 - 使用 Jaccard 係數評分 | `11-scoring-with-jaccard-coefficient.srt` | [連結](https://www.youtube.com/watch?v=MiX8_JVP6PE) |
-| 12 - 詞頻加權 | `12-term-frequency-weighting.srt` | [連結](https://www.youtube.com/watch?v=9UXM2NXVYY0) |
-| 13 - 逆文件頻率加權 | `13-inverse-document-frequency-weighting.srt` | [連結](https://www.youtube.com/watch?v=7nWlI_TVid0) |
-| 14 - TF-IDF 加權 | `14-tf-idf-weighting.srt` | [連結](https://www.youtube.com/watch?v=4-P3ckZprBk) |
-| 15 - 向量空間模型 | `15-the-vector-space-model.srt` | [連結](https://www.youtube.com/watch?v=o5nflzfX5tw) |
-| 16 - 計算 TF-IDF 餘弦分數 | `16-calculating-tf-idf-cosine-scores.srt` | [連結](https://www.youtube.com/watch?v=k1tD7pYKWuM) |
-| 17 - 搜尋引擎評估 | `17-evaluating-search-engines.srt` | [連結](https://www.youtube.com/watch?v=b7pfLpVBN84) |
+| 01 - 資訊檢索導論 | `srt/01-introduction-to-information-retrieval.srt` | [連結](https://www.youtube.com/watch?v=kNkCfaH2rxc) |
+| 02 - 語意網路簡介 | `srt/02-simple-introduction-to-semantic-networks.srt` | [連結](https://www.youtube.com/watch?v=K-yrnyvqXGo) |
+| 03 - 語意網路補充資訊 | `srt/03-semantic-networks-additional-info.srt` | [連結](https://www.youtube.com/watch?v=3PgIC9KcSNE) |
+| 04 - 語意網路詳細介紹 | `srt/04-detailed-introduction-to-semantic-networks.srt` | [連結](https://www.youtube.com/watch?v=sY0kbo251A4) |
+| 05 - 詞項-文件矩陣 | `srt/05-term-document-matrices.srt` | [連結](https://www.youtube.com/watch?v=e81nC0LO0A8) |
+| 06 - 倒排索引 | `srt/06-the-inverted-index.srt` | [連結](https://www.youtube.com/watch?v=Wf6HbY2PQDw) |
+| 07 - 使用倒排索引的查詢處理 | `srt/07-query-processing-with-inverted-index.srt` | [連結](https://www.youtube.com/watch?v=5KbynCj7yRQ) |
+| 08 - 布林檢索模型 | `srt/08-boolean-retrieval-model.srt` | [連結](https://www.youtube.com/watch?v=TIN_02pJU-Y) |
+| 09 - 片語查詢與位置索引 | `srt/09-phrase-queries-and-positional-indexes.srt` | [連結](https://www.youtube.com/watch?v=QVVvx_Csd2I) |
+| 10 - 排序檢索導論 | `srt/10-introducing-ranked-retrieval.srt` | [連結](https://www.youtube.com/watch?v=ZrNmCtSrL48) |
+| 11 - 使用 Jaccard 係數評分 | `srt/11-scoring-with-jaccard-coefficient.srt` | [連結](https://www.youtube.com/watch?v=MiX8_JVP6PE) |
+| 12 - 詞頻加權 | `srt/12-term-frequency-weighting.srt` | [連結](https://www.youtube.com/watch?v=9UXM2NXVYY0) |
+| 13 - 逆文件頻率加權 | `srt/13-inverse-document-frequency-weighting.srt` | [連結](https://www.youtube.com/watch?v=7nWlI_TVid0) |
+| 14 - TF-IDF 加權 | `srt/14-tf-idf-weighting.srt` | [連結](https://www.youtube.com/watch?v=4-P3ckZprBk) |
+| 15 - 向量空間模型 | `srt/15-the-vector-space-model.srt` | [連結](https://www.youtube.com/watch?v=o5nflzfX5tw) |
+| 16 - 計算 TF-IDF 餘弦分數 | `srt/16-calculating-tf-idf-cosine-scores.srt` | [連結](https://www.youtube.com/watch?v=k1tD7pYKWuM) |
+| 17 - 搜尋引擎評估 | `srt/17-evaluating-search-engines.srt` | [連結](https://www.youtube.com/watch?v=b7pfLpVBN84) |
 
 > **注意：** 03、04 影片為印地語授課，字幕翻譯品質較其他英文授課影片略差。
 
