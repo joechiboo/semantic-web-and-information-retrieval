@@ -81,7 +81,15 @@
 
 ## 核心概念速查
 
-### ⭐ 精確率與召回率 (Precision & Recall)【必考】
+### ⭐ 什麼是 IR (Information Retrieval)【必考】
+
+> Information Retrieval 是從儲存於電腦中的**大型集合 (Large Collections)** 裡，找到能滿足使用者**資訊需求 (Information Need)** 的**非結構化文件 (Unstructured Documents)**（通常為文字）。
+
+考試要能寫出：
+- 完整定義（包含 Large Collections、Information Need、Unstructured Documents 三個關鍵詞）
+- 應用場景：Web Search、Email Search、Enterprise Knowledge Base、Legal IR
+
+### 精確率與召回率 (Precision & Recall)
 
 #### 公式
 
@@ -117,7 +125,7 @@
 
 **評估原則：** Precision 和 Recall 是相對於使用者的「**資訊需求 (Information Need)**」來評估，而非相對於提交的「查詢 (Query)」。即使搜尋引擎完美執行了查詢，如果查詢本身沒有表達好需求，Precision 一樣會很低。
 
-### 經典搜尋流程 (Classic Search Model)
+### ⭐ 經典搜尋流程 (Classic Search Model)【必考】
 
 ```
 使用者任務 (User Task)
@@ -132,6 +140,12 @@
     ↓
 查詢優化 (Query Refinement) → 回到「查詢」步驟
 ```
+
+考試要能描述：
+- 每一層「翻譯」都可能丟失資訊（Task → Need → Query）
+- Query Misformulation（查詢表述不佳）會降低結果品質
+- 搜尋是一個迭代過程 (Iterative Process)，使用者會根據結果修正查詢
+- 評估基準是 Information Need，不是 Query
 
 ### 語意網路基本結構 (Semantic Network Structure)
 
