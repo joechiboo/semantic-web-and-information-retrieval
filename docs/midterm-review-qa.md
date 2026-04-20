@@ -88,61 +88,46 @@
 
 ## 影片 02 - Simple Introduction to Semantic Networks (語意網路簡介)
 
-### Q4：What is a Semantic Network? Explain Nodes, Edges, and Arcs
+### Q4：What is a Semantic Network? Explain its components, advantages and disadvantages
 
-**中：** 什麼是語意網路？Node、Edge、Arc 是什麼？
+**中：** 什麼是語意網路？說明其組成元素、優點與缺點
 
 **A：**
 
+**定義：**
+
 > Semantic Network 是一種**知識 (Knowledge) 的圖形化表示 (Graphical Representation)**，使用由互相連接的**節點 (Nodes)** 和**弧 (Arcs)** 所構成的**有向圖 (Directed Graph)** 來表示知識。
 
-**基本組成：**
+**組成元素：**
 
 | 元素 | 說明 |
 |------|------|
 | **Node（節點）** | 代表物件 (Object) 或實體 (Entity)，如 Apple、Tom、Cat |
-| **Edge（邊）** | 無方向的連線，用於無向圖 (Undirected Graph) |
-| **Arc（弧）** | 有方向的連線（帶箭頭），用於有向圖 (Directed Graph) |
+| **Arc（弧）** | 有方向的連線（帶箭頭），代表物件間的關係 |
 
-**範例（語意網路用 Arc，因為關係有方向性）：**
+**範例：**
 
 ```text
 Apple ──is a──→ Fruit
 Tom ──is a──→ Cat ──likes──→ Cream
-Cat ──sat on──→ Mat
 ```
 
-**💡 Edge vs Arc：**
-
-- `Fruit ──is a──→ Apple` ✗（水果不是蘋果，方向錯）
-- 所以語意網路用的是有方向的 Arc，不是無方向的 Edge
-
----
-
-### Q5：What are the advantages and disadvantages of Semantic Networks?
-
-**中：** 語意網路的優缺點？
-
-**A：**
+**優缺點：**
 
 | 優點 (Advantages) | 缺點 (Disadvantages) |
 | ------------------ | --------------------- |
-| 彈性且易於視覺化 | 不是完整的知識表示方式 (Not a complete knowledge representation) |
+| 彈性且易於視覺化 | 不是完整的知識表示方式 |
 | 自然的知識表示方式 | 缺乏操作性知識 (Lacks operational knowledge) |
-| 透明傳達意義，無歧義 | 無法表示程序或步驟的重要性 (Cannot represent procedures) |
-| 可使用演繹推理 (Deductive Reasoning) 和繼承 (Inheritance) | |
-| 可靈活新增新節點 | |
+| 透明傳達意義，無歧義 | 無法表示程序或步驟的重要性 |
+| 可使用演繹推理與繼承 (Deductive Reasoning & Inheritance) | |
 
-**💡 記法：**
-
-- 優點 = 「容易用、容易畫、容易理解」
-- 缺點 = 「表達能力有限，尤其無法講『怎麼做』」
+**💡 記法：** 優點 = 「容易用、容易畫、容易理解」；缺點 = 「表達能力有限，無法講『怎麼做』」
 
 ---
 
 ## 影片 05 - Term-Document Matrices (詞項-文件矩陣)
 
-### Q6：What is a Term-Document Matrix? Why is it impractical for large collections?
+### Q5：What is a Term-Document Matrix? Why is it impractical for large collections?
 
 **中：** 什麼是詞項-文件矩陣？為什麼對大型集合不實用？
 
@@ -180,7 +165,7 @@ Cat ──sat on──→ Mat
 
 ## 影片 06 - The Inverted Index (倒排索引)
 
-### Q7：What is an Inverted Index? Describe its structure
+### Q6：What is an Inverted Index? Describe its structure
 
 **中：** 什麼是倒排索引？它的結構是什麼？
 
@@ -212,7 +197,7 @@ Cat ──sat on──→ Mat
 
 ---
 
-### Q8：Describe the Inverted Index building process
+### Q7：Describe the Inverted Index building process
 
 **中：** 描述倒排索引的建構流程
 
@@ -251,7 +236,7 @@ Stemming（詞幹提取）：去掉字尾 → [friend] [roman] [countryman]
 
 ## 影片 07 - Query Processing with Inverted Index (使用倒排索引的查詢處理)
 
-### Q9：Write the INTERSECT algorithm for AND query on two postings lists
+### Q8：Write the INTERSECT algorithm for AND query on two postings lists
 
 **中：** 寫出兩個 Postings Lists 做 AND 查詢的合併演算法 (Merge Algorithm)
 
@@ -286,7 +271,7 @@ INTERSECT(p1, p2)
 
 ---
 
-### Q10：Why must postings lists be sorted by Document ID?
+### Q9：Why must postings lists be sorted by Document ID?
 
 **中：** 為什麼 Postings Lists 必須按 Document ID 排序？
 
@@ -310,14 +295,42 @@ INTERSECT(p1, p2)
 
 ---
 
-## 🔥 整體邏輯鏈（考試串聯記憶）
+### ⭐ Q10：Describe the evolution from simple text search to efficient Boolean retrieval【綜合題】
+
+**中：** 描述從簡單文字搜尋到高效布林檢索的演進過程（整合 05-07 的大架構題）
+
+**A：**
+
+這是 IR 基礎的**完整演進邏輯**，三個階段解決三個問題：
+
+**階段 1：grep（線性掃描）— 問題：太慢、功能有限**
+
+- Unix 指令，逐行掃描檔案內容
+- 對小資料可以，但對大型集合有四個問題：
+  1. 線性掃描太慢 (Linear Scan)
+  2. NOT 查詢不好實作
+  3. 無法做鄰近搜尋 (Proximity Search)
+  4. 無法做排名 (Ranking)
+
+**階段 2：Term-Document Matrix（矩陣）— 問題：太大太稀疏**
+
+- 行 = 詞項、列 = 文件、值 = 0/1
+- 可以用布林運算（AND / NOT）回答查詢
+- 但 100 萬文件 × 50 萬詞 = **半兆格**，幾乎都是 0，儲存不實用
+
+**階段 3：Inverted Index + INTERSECT（解法 + 應用）**
+
+- **Inverted Index**：只儲存有值（1）的位置
+  - Dictionary（詞典 + 文件頻率，放記憶體）
+  - Postings Lists（文件 ID 列表，按 docID 排序，放硬碟）
+- **INTERSECT**：用雙指標掃描兩個排序好的 Postings Lists
+  - 時間複雜度 O(x + y)
+  - 排序是關鍵，沒排序會變 O(x × y)
+
+**💡 串聯記憶公式：**
 
 ```text
-影片 05：grep 太慢 → 用 Matrix → 但太大太稀疏  （問題）
-            ↓
-影片 06：改用 Inverted Index（Dictionary + Postings Lists）（解法）
-            ↓
-影片 07：用雙指標 Merge Algorithm 做 AND 查詢，O(x+y) （應用）
+grep 太慢 → Matrix 太大太稀疏 → Inverted Index 只存 1 的位置 → INTERSECT 做高效 AND 查詢
 ```
 
-這三部是**一條邏輯鏈**，考試可能會問：「為什麼從 X 改到 Y？」或「解釋這整個演進過程」。
+**💡 考試延伸：** 這題很適合當**問答題的大綱**——如果被問到單一影片的內容，用這個演進脈絡展開，分數會更高。
