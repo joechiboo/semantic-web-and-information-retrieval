@@ -1,34 +1,31 @@
 # 期中考 Q&A 複習卷
 
 > **考試格式：** 英文出題，可用中文回答。英文看不懂可問教授。
-> 以問答題 (Essay Question) 格式整理，模擬考試作答方式
-> 涵蓋影片：01、02、05、06、07（共 10 題）
+> 涵蓋影片：01、05、06、07、08（共 10 題）
+> ⚠️ 02（語意網路）不考，本卷已移除
+> ⚠️ 08 的 WestLaw 與歷史內容不考
 
 ---
 
-## 影片 01 - Introduction to Information Retrieval (資訊檢索導論)
+## 影片 01 - Introduction to Information Retrieval
 
 ### ⭐ Q1：What is Information Retrieval (IR)?【必考】
 
-**中：** 什麼是 Information Retrieval (IR)？
-
 **A：**
 
-> Information Retrieval 是從儲存於電腦中的**大型集合 (Large Collections)** 裡，找到能滿足使用者**資訊需求 (Information Need)** 的**非結構化文件 (Unstructured Documents)**（通常為文字）。
+> IR 是從**大型集合 (Large Collections)** 中，找到能滿足使用者**資訊需求 (Information Need)** 的**非結構化文件 (Unstructured Documents)**（通常為文字）。
 
-**三個關鍵詞要寫到：**
+**三個關鍵詞必須寫到：**
 
-1. Large Collections（大型集合）
-2. Information Need（資訊需求）
-3. Unstructured Documents（非結構化文件）
+1. Large Collections
+2. Information Need
+3. Unstructured Documents
 
-**💡 延伸可以補充：** 應用場景如 Web Search、Email Search、企業知識庫、法律檢索
+**💡 延伸：** 應用場景如 Web Search、Email Search、企業知識庫、法律檢索
 
 ---
 
 ### ⭐ Q2：Describe the Classic Search Model【必考，可能要畫圖】
-
-**中：** 描述 Classic Search Model（經典搜尋模型）
 
 **A：**
 
@@ -46,7 +43,7 @@
     Query Refinement（查詢優化）→ 回到 Query
 ```
 
-**具體範例：**
+**範例：**
 
 | 階段 | 內容 |
 |------|------|
@@ -54,135 +51,83 @@
 | Information Need | 不殺死老鼠的方式移走牠們 |
 | Query | `how trap mice alive` |
 
-**要能描述的關鍵觀念：**
+**四個關鍵觀念（必寫）：**
 
-1. 每層「翻譯」都可能丟失資訊（Task → Need → Query）
-2. Query Misformulation（查詢表述不佳）會降低結果品質
-3. 搜尋是**迭代過程 (Iterative Process)**，使用者會根據結果修正查詢
+1. 每層「翻譯」可能丟失資訊（Task → Need → Query）
+2. **Query Misformulation** 會降低結果品質
+3. 搜尋是 **Iterative Process**（迭代過程）
 4. **評估基準是 Information Need，不是 Query**
 
 ---
 
 ### Q3：What are Precision and Recall? How are they calculated?
 
-**中：** Precision 和 Recall 分別是什麼？如何計算？
-
 **A：**
 
-| 指標 | 公式 | 白話解釋 |
-|------|------|----------|
-| **Precision（精確率）** | 正確的結果 / 全部回傳的結果 | 「你給我的東西裡面，有多少是我要的？」 |
-| **Recall（召回率）** | 正確的結果 / 全部相關的東西 | 「所有我要的東西，你幫我找到了多少？」 |
+| 指標 | 公式 | 白話 |
+|------|------|------|
+| **Precision** | 相關 ∩ 檢索 / 檢索 | 「給我的裡面，多少是對的」 |
+| **Recall** | 相關 ∩ 檢索 / 相關 | 「對的裡面，找到多少」 |
 
-**範例：** 車庫裡有 100 隻老鼠，捕鼠器抓到 20 隻（15 老鼠 + 5 蟑螂）
+**例子：** 100 隻老鼠，捕鼠器抓到 20 隻（15 老鼠 + 5 蟑螂）
 
-- Precision = 15 / 20 = 75%
-- Recall = 15 / 100 = 15%
+- Precision = 15/20 = 75%
+- Recall = 15/100 = 15%
 
-**💡 考試可能追問：**
+**💡 兩個延伸要點：**
 
-- **Trade-off**：提高 Precision 會降低 Recall，反之亦然
+- **Trade-off**：提高 Precision 會降低 Recall
 - **評估基準**：相對於 Information Need，不是 Query
 
 ---
 
-## 影片 02 - Simple Introduction to Semantic Networks (語意網路簡介)
+## 影片 05 - Term-Document Matrices
 
-### Q4：What is a Semantic Network? Explain its components, advantages and disadvantages
-
-**中：** 什麼是語意網路？說明其組成元素、優點與缺點
+### Q4：What is a Term-Document Matrix? Why is it impractical for large collections?
 
 **A：**
 
-**定義：**
+**定義：** Term-Document Matrix 是一個 **Boolean Matrix**：
 
-> Semantic Network 是一種**知識 (Knowledge) 的圖形化表示 (Graphical Representation)**，使用由互相連接的**節點 (Nodes)** 和**弧 (Arcs)** 所構成的**有向圖 (Directed Graph)** 來表示知識。
+- 列 (Rows) = Terms（詞項）
+- 行 (Columns) = Documents（文件）
+- 值 (Values) = 0 或 1（該詞是否出現）
 
-**組成元素：**
+**範例：** 莎士比亞劇本 → 取出每個詞的向量做布林運算（AND / NOT）回答查詢
 
-| 元素 | 說明 |
+**不實用的原因：**
+
+| 原因 | 說明 |
 |------|------|
-| **Node（節點）** | 代表物件 (Object) 或實體 (Entity)，如 Apple、Tom、Cat |
-| **Arc（弧）** | 有方向的連線（帶箭頭），代表物件間的關係 |
+| **規模問題** | 100 萬文件 × 50 萬詞項 = **半兆**個 cells |
+| **稀疏性 (Sparsity)** | 1s 最多 10 億個，**99%+ 是 0** |
 
-**範例：**
-
-```text
-Apple ──is a──→ Fruit
-Tom ──is a──→ Cat ──likes──→ Cream
-```
-
-**優缺點：**
-
-| 優點 (Advantages) | 缺點 (Disadvantages) |
-| ------------------ | --------------------- |
-| 彈性且易於視覺化 | 不是完整的知識表示方式 |
-| 自然的知識表示方式 | 缺乏操作性知識 (Lacks operational knowledge) |
-| 透明傳達意義，無歧義 | 無法表示程序或步驟的重要性 |
-| 可使用演繹推理與繼承 (Deductive Reasoning & Inheritance) | |
-
-**💡 記法：** 優點 = 「容易用、容易畫、容易理解」；缺點 = 「表達能力有限，無法講『怎麼做』」
-
----
-
-## 影片 05 - Term-Document Matrices (詞項-文件矩陣)
-
-### Q5：What is a Term-Document Matrix? Why is it impractical for large collections?
-
-**中：** 什麼是詞項-文件矩陣？為什麼對大型集合不實用？
-
-**A：**
-
-**定義：** Term-Document Matrix 是一個布林矩陣 (Boolean Matrix)：
-
-- **列 (Rows)** = 詞項 (Terms)
-- **行 (Columns)** = 文件 (Documents)
-- **值 (Values)** = 0 或 1（該詞是否出現在該文件）
-
-**範例：** 莎士比亞劇本 + 查詢 `Brutus AND Caesar AND NOT Calpurnia`
-
-→ 取出每個詞的向量，做 AND / NOT 布林運算，就能找到答案
-
-**為什麼不實用（規模問題 + 稀疏性）：**
-
-假設有 100 萬文件 × 50 萬詞項：
-
-- 矩陣有**半兆 (500K × 1M)** 個格子
-- 但 1s 最多只有 10 億個（文件平均 1000 詞 × 100 萬文件）
-- **絕大多數格子是 0，極度稀疏 (Sparse)**
-- 儲存這麼大的矩陣不划算
-
-**grep 為什麼也不行？**
+**為什麼 grep 也不行？**
 
 1. 線性掃描太慢 (Linear Scan)
 2. NOT 查詢不好實作
 3. 無法做鄰近搜尋 (Proximity Search)
 4. 無法做排名 (Ranking)
 
-**💡 結論：** 這個矩陣是重要的**概念性資料結構**，但實作上要用更好的方式 → **Inverted Index**
+**💡 結論：** 只記錄 1 的位置 → 引出 **Inverted Index**
 
 ---
 
-## 影片 06 - The Inverted Index (倒排索引)
+## 影片 06 - The Inverted Index
 
-### Q6：What is an Inverted Index? Describe its structure
-
-**中：** 什麼是倒排索引？它的結構是什麼？
+### Q5：What is an Inverted Index? Describe its structure【可能要畫圖】
 
 **A：**
 
-**定義：** Inverted Index 是一種資料結構，對每個詞項記錄它出現在哪些文件，利用矩陣的稀疏性達成高效儲存和檢索。
-
 **類比：** 就像**課本後面的索引頁**——從「詞」查「在哪些文件」。
 
-**兩側結構：**
+**兩側結構（必須能畫出來）：**
 
 ```text
       左側（Dictionary）              右側（Postings Lists）
   ┌────────────────────┐        ┌──────────────────┐
-  │ 詞項 + 文件頻率     │  →→→  │ 文件 ID 列表      │
-  │ (Terms + doc freq) │Pointers│ (Lists of docIDs) │
-  ├────────────────────┤        ├──────────────────┤
+  │ Terms + doc freq   │  →→→  │ Lists of docIDs  │
+  ├────────────────────┤Pointers├──────────────────┤
   │ brutus   2         │   →    │ [1, 2]           │
   │ caesar   2         │   →    │ [1, 2]           │
   │ capitol  1         │   →    │ [1]              │
@@ -192,14 +137,12 @@ Tom ──is a──→ Cat ──likes──→ Cream
 
 **關鍵特性：**
 
-- **Postings List 按 Document ID 排序**（為後續 Merge Algorithm 做準備）
-- Dictionary 和 Postings 存在不同地方（記憶體 vs 硬碟）
+- Postings List 按 **Document ID 排序**（為 Merge Algorithm 做準備）
+- Dictionary 和 Postings 存在不同地方（Memory vs Disk）
 
 ---
 
-### Q7：Describe the Inverted Index building process
-
-**中：** 描述倒排索引的建構流程
+### Q6：Describe the Inverted Index building process
 
 **A：**
 
@@ -208,41 +151,30 @@ Tom ──is a──→ Cat ──likes──→ Cream
 ```text
 原始文件
   ↓
-Tokenization（斷詞）：切成 [Friends] [Romans] [countrymen]
+Tokenization（斷詞）：[Friends] [Romans] [countrymen]
   ↓
-Normalization（正規化）：統一大小寫 → [friends] [romans] [countrymen]
+Normalization（正規化）：統一大小寫
   ↓
-Stemming（詞幹提取）：去掉字尾 → [friend] [roman] [countryman]
+Stemming（詞幹提取）：去掉字尾
   ↓
-（可選）Stop Words 處理：去除 the、a、of 等常見詞
+（可選）Stop Words：去除 the、a、of 等
 ```
 
 **建索引三步驟：**
 
 1. **標上文件 ID**：每個 token 記錄來自哪個文件
-   - 例：`(cat, 1)`, `(like, 1)`, `(cat, 2)`, `(dog, 2)`
+2. **排序**：主鍵=詞字母順序、次鍵=文件 ID
+3. **合併 (Consolidation)**：同文件重複合併、同詞組成 Postings List
 
-2. **排序**：
-   - 主鍵：詞的字母順序
-   - 次鍵：文件 ID
-
-3. **合併 (Consolidation)**：
-   - 同文件內的重複項合併（cat 在文件 2 出現 2 次 → 只留 1 筆）
-   - 同詞的所有文件組成 Postings List
-
-**💡 重點：** 排序是最花時間的步驟，但排完後 Postings List 自然就按 Document ID 排好，為下一步（Merge Algorithm）做準備。
+**💡 重點：** 排序是最花時間的步驟，但排完後 Postings List 自然按 Doc ID 排好。
 
 ---
 
-## 影片 07 - Query Processing with Inverted Index (使用倒排索引的查詢處理)
+## 影片 07 - Query Processing with Inverted Index
 
-### Q8：Write the INTERSECT algorithm for AND query on two postings lists
-
-**中：** 寫出兩個 Postings Lists 做 AND 查詢的合併演算法 (Merge Algorithm)
+### Q7：Write the INTERSECT algorithm for AND query
 
 **A：**
-
-**虛擬碼 (Pseudocode)：**
 
 ```text
 INTERSECT(p1, p2)
@@ -258,79 +190,156 @@ INTERSECT(p1, p2)
 10 return answer
 ```
 
-**核心概念（雙指標掃描 Two-pointer Scan）：**
+**核心觀念（雙指標 Two-pointer Scan）：**
 
-- 兩個指標同時掃描兩個排序好的 Postings Lists
-- 比對當前 Document ID：
-  - **相等** → 加入結果，兩個指標都往前
-  - **p1 較小** → 只動 p1
-  - **p2 較小** → 只動 p2
-- 任一指標到底就結束
+- **相等** → 加入結果，兩指標都動
+- **p1 較小** → 只動 p1
+- **p2 較小** → 只動 p2
 
-**時間複雜度：** O(x + y)，x、y 為兩個 Postings Lists 的長度
+**時間複雜度：** **O(x + y)**
 
 ---
 
-### Q9：Why must postings lists be sorted by Document ID?
-
-**中：** 為什麼 Postings Lists 必須按 Document ID 排序？
+### Q8：Why must postings lists be sorted by Document ID?
 
 **A：**
 
-**排序是 Merge Algorithm 能達到 O(x + y) 線性時間的關鍵。**
+**排序是 Merge Algorithm 達到 O(x + y) 的關鍵。**
 
-**有排序：** 用雙指標掃描，每次移動較小的那個指標，一次掃過就完成
-→ **時間複雜度 O(x + y)**
+| | 有排序 | 沒排序 |
+|--|--------|--------|
+| 演算法 | 雙指標掃描 | 巢狀迴圈 |
+| 時間複雜度 | **O(x + y)** | O(x × y) |
 
-**沒排序：** 每個 p1 都要跟整個 p2 列表比對，變成巢狀迴圈
-→ **時間複雜度 O(x × y)**
+**對比：** x = y = 1000
 
-**對比範例：**
+- 有排序：2000 次
+- 沒排序：1,000,000 次
 
-| Posting Lists 長度 | 有排序 O(x+y) | 沒排序 O(x×y) |
-|-------------------|---------------|---------------|
-| x = 1000, y = 1000 | 2000 次 | 1,000,000 次 |
-
-**💡 所以 Inverted Index 的建構階段就要把 Postings List 排序好（影片 06 的第 2 步排序），這樣影片 07 的查詢才能跑得快。**
+**💡 因此 Inverted Index 建構時就要把 Postings List 排序好（影片 06 第 2 步），讓查詢能跑得快。**
 
 ---
 
-### ⭐ Q10：Describe the evolution from simple text search to efficient Boolean retrieval【綜合題】
+## 影片 08 - The Boolean Retrieval Model
 
-**中：** 描述從簡單文字搜尋到高效布林檢索的演進過程（整合 05-07 的大架構題）
+### Q9：What is the Boolean Retrieval Model? Explain Query Optimization for AND queries
 
 **A：**
 
-這是 IR 基礎的**完整演進邏輯**，三個階段解決三個問題：
+**Boolean Retrieval Model：**
 
-**階段 1：grep（線性掃描）— 問題：太慢、功能有限**
+> 一種資訊檢索模型，使用者用 **Boolean 運算子**（AND / OR / NOT）組合詞項，文件「精確匹配」或「不匹配」這個布林表達式，沒有排名。
 
-- Unix 指令，逐行掃描檔案內容
-- 對小資料可以，但對大型集合有四個問題：
-  1. 線性掃描太慢 (Linear Scan)
-  2. NOT 查詢不好實作
-  3. 無法做鄰近搜尋 (Proximity Search)
-  4. 無法做排名 (Ranking)
+**運算子：**
 
-**階段 2：Term-Document Matrix（矩陣）— 問題：太大太稀疏**
+- `Brutus AND Caesar` → 兩者都要有
+- `Brutus OR Caesar` → 至少一個有
+- `Brutus AND NOT Caesar` → 有 Brutus 沒 Caesar
 
-- 行 = 詞項、列 = 文件、值 = 0/1
-- 可以用布林運算（AND / NOT）回答查詢
-- 但 100 萬文件 × 50 萬詞 = **半兆格**，幾乎都是 0，儲存不實用
+**Query Optimization（查詢最佳化）：**
 
-**階段 3：Inverted Index + INTERSECT（解法 + 應用）**
+對於 AND 多詞查詢，**從文件頻率最低的詞開始處理**。
 
-- **Inverted Index**：只儲存有值（1）的位置
-  - Dictionary（詞典 + 文件頻率，放記憶體）
-  - Postings Lists（文件 ID 列表，按 docID 排序，放硬碟）
-- **INTERSECT**：用雙指標掃描兩個排序好的 Postings Lists
-  - 時間複雜度 O(x + y)
-  - 排序是關鍵，沒排序會變 O(x × y)
+**範例：** `Brutus AND Caesar AND Calpurnia`
 
-**💡 串聯記憶公式：**
+| 詞 | doc freq |
+|----|----------|
+| Brutus | 1,000,000 |
+| Caesar | 1,000,000 |
+| Calpurnia | 1,000 |
 
-```text
-grep 太慢 → Matrix 太大太稀疏 → Inverted Index 只存 1 的位置 → INTERSECT 做高效 AND 查詢
+→ 從 Calpurnia 開始（最短的 Postings List），AND 結果不會比 Calpurnia 大，能最快縮小範圍。
+
+**💡 為什麼可行？** Dictionary 有存 doc freq，可以快速查詢決定處理順序。
+
+---
+
+### Q10：Adapt the merge algorithm for `A AND NOT B` and `A OR NOT B`
+
+**A：**
+
+#### A AND NOT B（在 A 但不在 B）
+
+**真值表：**
+| in_A | in_B | A AND NOT B | 包含 |
+|------|------|-------------|------|
+| T | T | F | ✗ |
+| T | F | T | ✓ |
+| F | T | F | ✗ |
+| F | F | F | ✗ |
+
+**演算法（O(x + y)，類似 INTERSECT）：**
+
+```csharp
+List<int> AND_NOT(List<int> ListA, List<int> ListB)
+{
+    List<int> result = new List<int>();
+    int i = 0, j = 0;
+    while (i < ListA.Count && j < ListB.Count)
+    {
+        if (ListA[i] == ListB[j]) { i++; j++; }      // 兩邊都有 → 不加
+        else if (ListA[i] < ListB[j])
+        {
+            result.Add(ListA[i]);                     // 在 A 不在 B → 加
+            i++;
+        }
+        else j++;                                     // 在 B 不在 A → 跳過
+    }
+    while (i < ListA.Count) result.Add(ListA[i++]);  // ⚠️ 收尾：A 剩下的都加
+    return result;
+}
 ```
 
-**💡 考試延伸：** 這題很適合當**問答題的大綱**——如果被問到單一影片的內容，用這個演進脈絡展開，分數會更高。
+#### A OR NOT B（在 A 或不在 B）
+
+**真值表：**
+| in_A | in_B | A OR NOT B | 包含 |
+|------|------|------------|------|
+| T | T | T | ✓ |
+| T | F | T | ✓ |
+| F | T | F | ✗ |
+| F | F | T | ✓ ← 關鍵 |
+
+**演算法（O(N)，必須走全部 N 個文件）：**
+
+```csharp
+List<int> OR_NOT(List<int> ListA, List<int> ListB, int N)
+{
+    List<int> result = new List<int>();
+    int i = 0, j = 0;
+    for (int d = 1; d <= N; d++)
+    {
+        bool in_A = (i < ListA.Count && ListA[i] == d);
+        bool in_B = (j < ListB.Count && ListB[j] == d);
+        if (in_A || !in_B) result.Add(d);
+        if (in_A) i++;
+        if (in_B) j++;
+    }
+    return result;
+}
+```
+
+**💡 OR NOT 為何需要 N？** 因為「F F」的文件（兩邊都沒有）也要包含，必須走全部才看得到。
+
+#### 三種操作對比
+
+| 操作 | 條件 | 需要 N？ | 複雜度 |
+|------|------|---------|--------|
+| AND (INTERSECT) | `in_A && in_B` | ✗ | O(x+y) |
+| AND NOT | `in_A && !in_B` | ✗ | O(x+y) + 收尾 |
+| **OR NOT** | `in_A \|\| !in_B` | **✓** | **O(N)** |
+
+---
+
+## 🔥 整體邏輯鏈
+
+```text
+05：grep 太慢 → Matrix → 但太大太稀疏  （問題）
+       ↓
+06：改用 Inverted Index（Dictionary + Postings Lists）（解法）
+       ↓
+07：用雙指標 Merge Algorithm 做 AND 查詢，O(x+y)（基本應用）
+       ↓
+08：Boolean Retrieval Model + Query Optimization
+    + Merge 演算法擴充：AND NOT、OR NOT（進階應用）
+```
