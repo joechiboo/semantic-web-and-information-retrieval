@@ -1,9 +1,9 @@
 # 期中考 Q&A 複習卷
 
 > **考試格式：** 英文出題，可用中文回答。英文看不懂可問教授。
-> 涵蓋影片：01、05、06、07、08（共 10 題）
-> ⚠️ 02（語意網路）不考，本卷已移除
-> ⚠️ 08 的 WestLaw 與歷史內容不考
+> **內容來源：** 主要從**影片**出，較少作業形式（教授 2026-04-28 說明）
+> **涵蓋影片：** 01、05、06、07、08、09（共 10 題）
+> ⚠️ 02（語意網路）不考；08 的 WestLaw 與歷史內容不考
 
 ---
 
@@ -146,19 +146,14 @@
 
 **A：**
 
-**前處理：**
+**前處理 4 個階段（Initial stages of text processing）：**
 
-```text
-原始文件
-  ↓
-Tokenization（斷詞）：[Friends] [Romans] [countrymen]
-  ↓
-Normalization（正規化）：統一大小寫
-  ↓
-Stemming（詞幹提取）：去掉字尾
-  ↓
-（可選）Stop Words：去除 the、a、of 等
-```
+| 階段 | 做什麼 | 範例 |
+|------|--------|------|
+| **Tokenization** | 把字元序列切成 word tokens | `John's` 怎麼切 |
+| **Normalization** | 統一文字和查詢的形式 | `U.S.A.` = `USA` |
+| **Stemming** | 不同詞型對到同一詞根 | `authorize`, `authorization` |
+| **Stop Words** | 移除極常見的詞（可選） | `the`, `a`, `to`, `of` |
 
 **建索引三步驟：**
 
@@ -172,9 +167,11 @@ Stemming（詞幹提取）：去掉字尾
 
 ## 影片 07 - Query Processing with Inverted Index
 
-### Q7：Write the INTERSECT algorithm for AND query
+### Q7：Write the INTERSECT algorithm for AND query. Why must postings lists be sorted?
 
 **A：**
+
+**INTERSECT 演算法：**
 
 ```text
 INTERSECT(p1, p2)
@@ -196,22 +193,14 @@ INTERSECT(p1, p2)
 - **p1 較小** → 只動 p1
 - **p2 較小** → 只動 p2
 
-**時間複雜度：** **O(x + y)**
-
----
-
-### Q8：Why must postings lists be sorted by Document ID?
-
-**A：**
-
-**排序是 Merge Algorithm 達到 O(x + y) 的關鍵。**
+**為什麼 Postings 要排序？**
 
 | | 有排序 | 沒排序 |
 |--|--------|--------|
 | 演算法 | 雙指標掃描 | 巢狀迴圈 |
 | 時間複雜度 | **O(x + y)** | O(x × y) |
 
-**對比：** x = y = 1000
+**對比：** x = y = 1000 時
 
 - 有排序：2000 次
 - 沒排序：1,000,000 次
@@ -222,7 +211,7 @@ INTERSECT(p1, p2)
 
 ## 影片 08 - The Boolean Retrieval Model
 
-### Q9：What is the Boolean Retrieval Model? Explain Query Optimization for AND queries
+### Q8：What is the Boolean Retrieval Model? Explain Query Optimization for AND queries
 
 **A：**
 
@@ -230,7 +219,7 @@ INTERSECT(p1, p2)
 
 > 一種資訊檢索模型，使用者用 **Boolean 運算子**（AND / OR / NOT）組合詞項，文件「精確匹配」或「不匹配」這個布林表達式，沒有排名。
 
-**運算子：**
+**三個運算子：**
 
 - `Brutus AND Caesar` → 兩者都要有
 - `Brutus OR Caesar` → 至少一個有
@@ -254,80 +243,99 @@ INTERSECT(p1, p2)
 
 ---
 
-### Q10：Adapt the merge algorithm for `A AND NOT B` and `A OR NOT B`
+## 影片 09 - Phrase Queries and Positional Indexes
+
+### Q9：What are Phrase Queries? Explain Biword Index and its limitations
 
 **A：**
 
-#### A AND NOT B（在 A 但不在 B）
+**Phrase Queries（片語查詢）：**
 
-**真值表：**
-| in_A | in_B | A AND NOT B | 包含 |
-|------|------|-------------|------|
-| T | T | F | ✗ |
-| T | F | T | ✓ |
-| F | T | F | ✗ |
-| F | F | F | ✗ |
+> 使用者用引號 `"information retrieval"` 把多個詞當作**一個整體**查詢，要求詞**相鄰且順序正確**。
 
-**演算法（O(x + y)，類似 INTERSECT）：**
+**為什麼標準 Inverted Index 不夠？**
 
-```csharp
-List<int> AND_NOT(List<int> ListA, List<int> ListB)
-{
-    List<int> result = new List<int>();
-    int i = 0, j = 0;
-    while (i < ListA.Count && j < ListB.Count)
-    {
-        if (ListA[i] == ListB[j]) { i++; j++; }      // 兩邊都有 → 不加
-        else if (ListA[i] < ListB[j])
-        {
-            result.Add(ListA[i]);                     // 在 A 不在 B → 加
-            i++;
-        }
-        else j++;                                     // 在 B 不在 A → 跳過
-    }
-    while (i < ListA.Count) result.Add(ListA[i++]);  // ⚠️ 收尾：A 剩下的都加
-    return result;
-}
+標準 Inverted Index 只能告訴你某個詞**有沒有出現在文件**，但**不知道詞與詞之間是否相鄰**。
+
+範例：搜尋 `"information retrieval"`，文件「I went to **university** at Stanford for **information**」雖然兩個詞都有，但**不是片語**，不該匹配。
+
+**Biword Index（雙詞索引）：**
+
+> 把每兩個連續詞當作一個「詞項」來索引。
+
+範例：「Friends, Romans, countrymen」產生：
+
+```text
+biword          → docIDs
+─────────────────────
+friends romans  → [17, 33, ...]
+romans countrymen → [17, ...]
 ```
 
-#### A OR NOT B（在 A 或不在 B）
+**處理長片語：** 拆成多個 biword 做 AND
+- `"stanford university palo alto"` → `"stanford university"` AND `"university palo"` AND `"palo alto"`
 
-**真值表：**
-| in_A | in_B | A OR NOT B | 包含 |
-|------|------|------------|------|
-| T | T | T | ✓ |
-| T | F | T | ✓ |
-| F | T | F | ✗ |
-| F | F | T | ✓ ← 關鍵 |
+**Biword Index 的兩個問題：**
 
-**演算法（O(N)，必須走全部 N 個文件）：**
+1. **False Positives（假陽性）**：拆解後可能匹配到不連續的片語
+2. **字典爆炸 (Dictionary Blowup)** ⚠️ 主要問題
+   - 字典大小變成詞數的**平方**
+   - 不可能做 triword（三詞）或 quadword（四詞）索引
 
-```csharp
-List<int> OR_NOT(List<int> ListA, List<int> ListB, int N)
-{
-    List<int> result = new List<int>();
-    int i = 0, j = 0;
-    for (int d = 1; d <= N; d++)
-    {
-        bool in_A = (i < ListA.Count && ListA[i] == d);
-        bool in_B = (j < ListB.Count && ListB[j] == d);
-        if (in_A || !in_B) result.Add(d);
-        if (in_A) i++;
-        if (in_B) j++;
-    }
-    return result;
-}
+**💡 結論：** Biword Index **不是標準解法**，但可作為輔助（後面會提）。
+
+---
+
+### Q10：What is a Positional Index? How does it support phrase queries?
+
+**A：**
+
+**Positional Index（位置索引，標準解法）：**
+
+> 在 Postings 中除了記錄 docID，**還記錄該詞在文件中的位置**。
+
+**結構：**
+
+```text
+term → < doc.freq;
+         docID1: ⟨pos1, pos2, pos3, ...⟩;
+         docID2: ⟨pos1, pos2, ...⟩;
+         ... >
 ```
 
-**💡 OR NOT 為何需要 N？** 因為「F F」的文件（兩邊都沒有）也要包含，必須走全部才看得到。
+**範例：**
 
-#### 三種操作對比
+```text
+be → 993,427 documents;
+     1: ⟨7, 18, 33, 72, 86, 231⟩;
+     2: ⟨3, 149⟩;
+     4: ⟨17, 191, 291, 430, 434⟩;
+     5: ⟨363, 367⟩
+```
 
-| 操作 | 條件 | 需要 N？ | 複雜度 |
-|------|------|---------|--------|
-| AND (INTERSECT) | `in_A && in_B` | ✗ | O(x+y) |
-| AND NOT | `in_A && !in_B` | ✗ | O(x+y) + 收尾 |
-| **OR NOT** | `in_A \|\| !in_B` | **✓** | **O(N)** |
+→ `be` 在文件 1 的第 7、18、33... 個位置出現
+
+**Two-level Merge（兩層合併演算法）：**
+
+處理 `"information retrieval"` 片語查詢：
+
+1. **第一層**：用 Merge Algorithm 找出**同時包含兩個詞**的文件（合併 docID）
+2. **第二層**：在這些文件中，檢查 `information` 的位置 + 1 是否等於 `retrieval` 的位置（合併 position）
+
+**範例：** 在文件 4 中：
+- `information` 在位置 37
+- `retrieval` 在位置 38（37 + 1 = 38 ✓）→ 是片語！
+
+**也可處理 Proximity Queries（鄰近查詢）：**
+
+如 `information /3 retrieval`（兩詞距離不超過 3）→ 改成檢查 `|pos1 - pos2| ≤ 3`
+
+**Positional Index 的代價：**
+
+- 比非位置索引大 **2-4 倍**
+- 約是原始文字大小的 **1/3 ~ 1/2**（非位置索引大約是 10%）
+
+**💡 混合方案：** 常用片語（如 "Michael Jackson"）用 Biword Index、罕見片語用 Positional Index → 速度快且空間省
 
 ---
 
@@ -340,6 +348,7 @@ List<int> OR_NOT(List<int> ListA, List<int> ListB, int N)
        ↓
 07：用雙指標 Merge Algorithm 做 AND 查詢，O(x+y)（基本應用）
        ↓
-08：Boolean Retrieval Model + Query Optimization
-    + Merge 演算法擴充：AND NOT、OR NOT（進階應用）
+08：Boolean Retrieval Model + Query Optimization（多詞處理）
+       ↓
+09：Inverted Index 不夠處理片語 → Positional Index + Two-level Merge（進階）
 ```
