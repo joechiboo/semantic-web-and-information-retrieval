@@ -1,7 +1,58 @@
 # 期中考個人弱點清單
 
-> **用途：** 記錄今天 (5/9) Q&A 練習中發現的盲點，明天精進模式直接打靶。
-> **配套：** `midterm-review-qa.md`（10 題詳解）、`midterm-story-map.md`（全景圖）
+> **用途：** 記錄 5/9~5/10 Q&A 練習中發現的盲點，明天 (5/11) 考前直接打靶。
+> **配套：** `midterm-review-qa.md`（10 題詳解）、`midterm-story-map.md`（全景圖）、`midterm-model-answers.md`（模範答案速記）
+
+---
+
+## 🔥 5/10 全套衝刺結果（最新）
+
+### 📊 一輪完整模擬（Q1~Q10）狀態
+
+| 題 | 狀態 | 重複犯的錯 |
+|----|------|-----------|
+| Q1 | ⚠️ 三關鍵字全漏 | Large Collections / Information Need / Unstructured Documents |
+| Q2 | ⚠️ 圖對但漏觀念 | 4 個必寫觀念全漏（光畫圖只拿一半分） |
+| Q3 | ⚠️ 半套 | Trade-off + 評估基準（題目明確問了 Trade-off 都漏！）|
+| Q4 | ✅ 大進步 | 數字算對了，缺：grep 為何不行（4 點）|
+| Q5 | 🔴 **連兩次同樣的錯** | 漏 Postings 排序 + Memory/Disk |
+| Q6 | ⚠️ 4 階段補齊了 | 缺：標文件 ID + Consolidation 兩步驟 |
+| Q7 | ✅ **進步最大** | 「誰小誰動」修正成功！|
+| Q8 | ⚠️ 方向對關鍵字模糊 | 漏 Exact Match + No Ranking + 為何可行 |
+| Q9 | 🔴 **觀念混淆** | 把 Q10 的「2-4 倍」當 Biword 限制；應該是 Dictionary Blowup |
+| Q10 | ⚠️ 半套 | 漏目的（支援片語/鄰近）、漏 Two-level Merge 名稱、漏 2-4 倍代價 |
+
+### 🎯 三大個人模式（重複出現）
+
+1. **「會背架構，常漏關鍵特性」** — Q5、Q8、Q10 都中
+   - 結構畫對但忘記為什麼這樣設計
+   - 例：Q5 結構畫對但漏「排序」「Memory/Disk」；Q8 寫對運算子但漏「Exact Match、No Ranking」
+
+2. **「題目明確問什麼漏什麼」** — Q3 最明顯
+   - 題目寫 "explain the trade-off" 但答案完全沒提 trade-off
+   - 策略：**先把題目所有問句拆開，逐項對應答**
+
+3. **觀念交叉混淆** — Q9/Q10「2-4 倍」放錯題
+   - Biword 的限制 = **Dictionary Blowup（V²）**
+   - Positional Index 的代價 = **2-4 倍大小**
+   - 不要混！
+
+### ✅ 明天考前 5 分鐘 checklist（必念）
+
+| 題 | 漏什麼絕對要補 |
+|----|--------------|
+| Q1 | 「**大、需、非**」+ Web/Email/Enterprise/Legal |
+| Q2 | 4 觀念：翻譯失真、Misformulation、Iterative、評估看 Need |
+| Q3 | Trade-off + 評估基準（Need not Query）|
+| Q4 | grep 4 點：慢、NOT 難、無鄰近、無 Ranking |
+| Q5 | **Postings 排序** + **Memory/Disk** |
+| Q6 | 4 階段 + 3 步驟（標 ID / 排序 / Consolidation）|
+| Q7 | **誰小誰動** + O(x+y) vs O(x×y) |
+| Q8 | AND/OR/NOT + **Exact Match** + **No Ranking** + Dictionary 存 doc freq |
+| Q9 | **Dictionary Blowup（V²）** ≠ 2-4 倍！|
+| Q10 | 目的=**支援片語**，不是 ranking 不是效率；**Two-level Merge** |
+
+---
 
 ---
 
