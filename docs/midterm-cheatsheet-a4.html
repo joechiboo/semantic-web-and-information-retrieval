@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>期中考 A4 速記表</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+    font-size: 10pt;
+    line-height: 1.35;
+    margin: 0;
+    padding: 0;
+    color: #000;
+  }
+
+  h1 {
+    font-size: 14pt;
+    text-align: center;
+    margin: 0 0 6pt 0;
+    padding-bottom: 3pt;
+    border-bottom: 1.5pt solid #000;
+  }
+
+  h2 {
+    font-size: 11pt;
+    margin: 8pt 0 4pt 0;
+    padding: 2pt 4pt;
+    background: #e0e0e0;
+    border-left: 3pt solid #000;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3pt 0;
+    font-size: 9pt;
+  }
+
+  th, td {
+    border: 0.5pt solid #555;
+    padding: 2pt 4pt;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #d0d0d0;
+    font-weight: bold;
+  }
+
+  td:first-child {
+    width: 28pt;
+    text-align: center;
+    font-weight: bold;
+    background: #f0f0f0;
+  }
+
+  pre {
+    background: #f5f5f5;
+    border: 0.5pt solid #888;
+    padding: 4pt;
+    margin: 3pt 0;
+    font-size: 8.5pt;
+    line-height: 1.25;
+    font-family: "Consolas", "Menlo", monospace;
+    white-space: pre;
+    overflow: hidden;
+  }
+
+  strong {
+    background: #fff099;
+    padding: 0 1pt;
+  }
+
+  .danger {
+    background: #ffe5e5;
+    border-left: 3pt solid #c00;
+    padding: 4pt 6pt;
+    margin: 3pt 0;
+  }
+
+  .danger ol {
+    margin: 2pt 0 2pt 16pt;
+    padding: 0;
+  }
+
+  .danger li {
+    margin-bottom: 2pt;
+  }
+
+  .two-col {
+    display: flex;
+    gap: 8pt;
+  }
+
+  .two-col > div {
+    flex: 1;
+  }
+
+  @media print {
+    body {
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>期中考 A4 速記表 (IR / Semantic Web)</h1>
+
+<h2>10 題關鍵字（缺即扣分）</h2>
+<table>
+  <tr><th style="width:28pt;">#</th><th>必寫關鍵字</th></tr>
+  <tr><td>Q1</td><td><strong>Large Collections</strong> / <strong>Information Need</strong> / <strong>Unstructured Documents</strong> + 應用：Web / Email / Enterprise / Legal</td></tr>
+  <tr><td>Q2</td><td>圖（Task→Need→Query→SE↔Coll→Result→Refine）+ 4 觀念：翻譯丟失 / <strong>Misformulation</strong> / <strong>Iterative</strong> / 評估看 <strong>Need</strong></td></tr>
+  <tr><td>Q3</td><td>P=∩/檢索, R=∩/相關 + 老鼠 15/20、15/100 + <strong>Trade-off</strong> + 評估基準=<strong>Need</strong></td></tr>
+  <tr><td>Q4</td><td>Boolean(0/1) + <strong>半兆</strong>(1M×500K) + <strong>稀疏 99%+</strong> + grep 4：慢 / NOT 難 / 無鄰近 / 無 Ranking</td></tr>
+  <tr><td>Q5</td><td><strong>Dictionary</strong>(doc freq, <strong>Memory</strong>) + <strong>Postings</strong>(<strong>Disk</strong>) + <strong>按 docID 排序</strong></td></tr>
+  <tr><td>Q6</td><td>4 階段：Tokenization / Normalization / Stemming / Stop Words + 3 步驟：<strong>標 ID → 排序 → Consolidation</strong></td></tr>
+  <tr><td>Q7</td><td>雙指標「<strong>誰小誰動</strong>」+ <strong>O(x+y)</strong> vs O(x×y)</td></tr>
+  <tr><td>Q8</td><td><strong>AND / OR / NOT</strong> + <strong>Exact Match</strong> + <strong>No Ranking</strong> + 從 <strong>doc freq 最低</strong>開始（Dict 存 doc freq）</td></tr>
+  <tr><td>Q9</td><td>引號相鄰 + 兩連續詞當 term + <strong>False Positives</strong> + <strong>Dictionary Blowup (V²)</strong></td></tr>
+  <tr><td>Q10</td><td>記<strong>位置</strong> + 目的=<strong>支援片語/鄰近</strong>（非 ranking）+ <strong>Two-level Merge</strong> + <strong>2-4 倍</strong>大小</td></tr>
+</table>
+
+<div class="two-col">
+  <div>
+    <h2>Inverted Index 結構（必畫）</h2>
+<pre>   Dictionary (Memory)        Postings (Disk)
+┌────────────────────┐        ┌──────────────┐
+│ Term  | doc freq   │pointer │              │
+├───────┼────────────┤───────→│              │
+│brutus | 2      ────┼───────→│  [1, 2]      │
+│caesar | 2      ────┼───────→│  [1, 2]      │
+└────────────────────┘        └──────────────┘</pre>
+  </div>
+  <div>
+    <h2>INTERSECT 演算法（Q7 必背）</h2>
+<pre>INTERSECT(p1, p2)
+1  answer ← ⟨⟩
+2  while p1 ≠ NIL and p2 ≠ NIL
+3    do if docID(p1) = docID(p2)
+4         then ADD(answer, docID(p1))
+5              p1←next(p1); p2←next(p2)
+6         else if docID(p1) &lt; docID(p2)
+7              then p1←next(p1)
+8              else p2←next(p2)
+9  return answer</pre>
+  </div>
+</div>
+
+<div class="danger">
+  <strong>⚠️ 三大死穴</strong>
+  <ol>
+    <li><strong>Q9 ≠ Q10</strong>：Biword 限制是 <strong>V² 字典爆炸</strong>；Positional 代價是 <strong>2-4 倍</strong></li>
+    <li><strong>題目問什麼答什麼</strong>：Q3 trade-off 別漏</li>
+    <li><strong>結構畫對也要寫特性</strong>：Q5 排序 + Memory/Disk、Q8 Exact Match + No Ranking、Q10 目的 = 支援片語</li>
+  </ol>
+</div>
+
+</body>
+</html>
