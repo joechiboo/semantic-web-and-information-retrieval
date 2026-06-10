@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>期末考 Q&A 複習卷</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0;
+    color: #000;
+  }
+
+  h1 {
+    font-size: 14pt;
+    text-align: center;
+    margin: 0 0 6pt 0;
+    padding-bottom: 4pt;
+    border-bottom: 1.5pt solid #000;
+  }
+
+  h2 {
+    font-size: 12pt;
+    margin: 10pt 0 4pt 0;
+    padding: 3pt 5pt;
+    background: #d0d0d0;
+    border-left: 4pt solid #000;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 10.5pt;
+    margin: 8pt 0 3pt 0;
+    color: #003366;
+    page-break-after: avoid;
+  }
+
+  h3.star {
+    background: #fff099;
+    padding: 2pt 4pt;
+  }
+
+  p {
+    margin: 3pt 0;
+  }
+
+  blockquote {
+    margin: 3pt 0 3pt 8pt;
+    padding: 3pt 8pt;
+    border-left: 2pt solid #888;
+    background: #f7f7f7;
+    font-style: italic;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4pt 0;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    border: 0.5pt solid #555;
+    padding: 2pt 5pt;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #d8d8d8;
+    font-weight: bold;
+  }
+
+  pre {
+    background: #f5f5f5;
+    border: 0.5pt solid #888;
+    padding: 4pt 6pt;
+    margin: 3pt 0;
+    font-size: 9pt;
+    line-height: 1.3;
+    font-family: "Consolas", "Menlo", monospace;
+    white-space: pre;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+
+  strong {
+    background: #fff099;
+    padding: 0 1pt;
+  }
+
+  ul, ol {
+    margin: 3pt 0 3pt 18pt;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 2pt;
+  }
+
+  hr {
+    border: none;
+    border-top: 1pt dashed #888;
+    margin: 8pt 0;
+  }
+
+  .meta {
+    background: #eef;
+    border-left: 3pt solid #003366;
+    padding: 4pt 8pt;
+    margin: 4pt 0 8pt 0;
+    font-size: 9.5pt;
+  }
+
+  .meta p { margin: 2pt 0; }
+
+  .answer-label {
+    color: #c00;
+    font-weight: bold;
+  }
+
+  @media print {
+    body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    h2 { page-break-before: auto; }
+  }
+</style>
+</head>
+<body>
+
+<h1>期末考 Q&A 複習卷</h1>
+
+<div class="meta">
+  <p><strong>考試格式：</strong>英文出題，可用中文回答（與期中考同）</p>
+  <p><strong>內容來源：</strong>主要從影片出，較少作業形式</p>
+  <p><strong>涵蓋影片：</strong>10、11、12、13、14（共 10 題）</p>
+  <p><strong>📅 期末考：</strong>2026-06-15</p>
+</div>
+
+<h2>影片 10 - Introducing Ranked Retrieval</h2>
+
+<h3 class="star">⭐ Q1：What is the "Feast or Famine" problem? Why do we need Ranked Retrieval?</h3>
+<p><span class="answer-label">A：</span></p>
+<p><strong>Feast or Famine Problem（饗宴或飢荒問題）：</strong></p>
+<blockquote>
+Boolean 查詢容易產生<strong>極端結果</strong>：
+<ul>
+<li>用 <strong>AND</strong> 連接 → 結果<strong>太少</strong>（甚至 0 個）</li>
+<li>用 <strong>OR</strong> 連接 → 結果<strong>太多</strong>（數千甚至更多）</li>
+</ul>
+</blockquote>
+<p><strong>真實例子（影片裡）：</strong></p>
+<pre>Query: standard user Dlink 650
+     → 20 萬筆結果（太多）
+
+Query: standard user Dlink 650 no card found
+     → 0 筆結果（太少）</pre>
+<p>要寫出<strong>剛好</strong>的查詢需要高度技巧，大多數使用者做不到。</p>
+<p><strong>為什麼需要 Ranked Retrieval？</strong></p>
+<blockquote>Ranked Retrieval 對每個文件<strong>評分 (Scoring) 0~1</strong>，按分數排序返回，使用者只看前面幾筆，<strong>結果太多也沒關係</strong>。</blockquote>
+<p><strong>關鍵字：</strong> Feast or Famine Problem / Scoring (0~1) / Ranking</p>
+
+<hr>
+
+<h3>Q2：What are the key differences between Boolean Retrieval and Ranked Retrieval?</h3>
+<p><span class="answer-label">A：</span></p>
+<table>
+<tr><th></th><th>Boolean Retrieval</th><th>Ranked Retrieval</th></tr>
+<tr><td><strong>匹配方式</strong></td><td>Exact Match（要嘛符合，要嘛不符合）</td><td>評分 0~1</td></tr>
+<tr><td><strong>回傳結果</strong></td><td>集合（set）</td><td>排序清單（ranked list）</td></tr>
+<tr><td><strong>查詢語言</strong></td><td>Boolean Query（AND/OR/NOT）</td><td><strong>Free Text Queries</strong>（自然語言）</td></tr>
+<tr><td><strong>Feast or Famine</strong></td><td>❌ 有問題</td><td>✓ 解決</td></tr>
+<tr><td><strong>適合對象</strong></td><td>專家使用者</td><td><strong>一般使用者</strong></td></tr>
+</table>
+<p><strong>重點觀念：</strong></p>
+<ol>
+<li>Ranked Retrieval 通常搭配 <strong>Free Text Queries</strong></li>
+<li>Scoring 基本原則：查詢詞不在文件 → 分數=0；出現越多次 → 分數越高</li>
+<li>Ranked Retrieval 需要<strong>好的評分系統</strong>，讓排序前面的真的是好結果</li>
+</ol>
+
+<h2>影片 11 - Scoring with the Jaccard Coefficient</h2>
+
+<h3>Q3：What is the Jaccard Coefficient? How is it calculated? What are its limitations?</h3>
+<p><span class="answer-label">A：</span></p>
+<p><strong>Jaccard Coefficient 公式：</strong></p>
+<pre>Jaccard(A, B) = |A ∩ B| / |A ∪ B|</pre>
+<p>→ <strong>兩個集合的交集 / 聯集</strong>，值在 <strong>0~1</strong> 之間</p>
+<p><strong>計算範例：</strong></p>
+<pre>Query Q = {ides, of, march}
+Doc 1   = {caesar, died, in, march}
+
+A ∩ B = {march}                              → 1
+A ∪ B = {ides, of, march, caesar, died, in} → 6
+
+Jaccard(Q, Doc1) = 1/6 ≈ 0.17</pre>
+<p><strong>兩個致命限制：</strong></p>
+<table>
+<tr><th>限制</th><th>說明</th></tr>
+<tr><td><strong>1. 不考慮詞頻 (Term Frequency)</strong></td><td>一個詞出現 1 次 vs 100 次，Jaccard 給<strong>同樣分數</strong></td></tr>
+<tr><td><strong>2. 不分罕見詞 vs 常見詞</strong></td><td>"the" 和 "quantum" 同樣權重，但 quantum 顯然<strong>更有資訊量</strong></td></tr>
+</table>
+<p>→ 這兩個限制就是引出後面 <strong>TF（影片 12）</strong> 和 <strong>IDF（影片 13）</strong> 的原因</p>
+
+<h2>影片 12 - Term-Frequency Weighting</h2>
+
+<h3>Q4：What is the Bag of Words model? What are its limitations?</h3>
+<p><span class="answer-label">A：</span></p>
+<p><strong>Bag of Words Model（詞袋模型）：</strong></p>
+<blockquote>把文件看成「<strong>裝著詞的袋子</strong>」——<strong>不考慮詞序，只考慮詞頻</strong>。</blockquote>
+<p><strong>從向量角度看演進：</strong></p>
+<pre>Boolean 時代：[0, 1, 1, 0, 1]   ← Binary Vector，記「有/無」
+Bag of Words：[0, 3, 1, 0, 7]   ← Count Vector，記「出現幾次」</pre>
+<p><strong>致命限制（必背例子）：</strong></p>
+<pre>"John is quicker than Mary"  → [John:1, is:1, quicker:1, than:1, Mary:1]
+"Mary is quicker than John"  → [John:1, is:1, quicker:1, than:1, Mary:1]
+                                ↑↑↑ 完全相同！但意思相反</pre>
+<p>→ <strong>Bag of Words 無法區分這兩個句子</strong></p>
+<p><strong>為什麼還是用 Bag of Words？</strong></p>
+<ul>
+<li>簡單，可以做向量運算</li>
+<li>對大部分檢索任務夠用</li>
+<li>後面用 <strong>Positional Index</strong> 補救詞序資訊</li>
+</ul>
+
+<hr>
+
+<h3>Q5：Why do we use Log Frequency Weighting instead of raw term frequency? Write the formula</h3>
+<p><span class="answer-label">A：</span></p>
+<p><strong>為什麼不用原始 tf？</strong></p>
+<table>
+<tr><th>squirrel 出現次數</th><th>應該比 1 次相關幾倍？</th></tr>
+<tr><td>1 次</td><td>基準</td></tr>
+<tr><td>3 次</td><td>應該更相關 ✓</td></tr>
+<tr><td>30 次</td><td><strong>應該 30 倍相關嗎？❌</strong></td></tr>
+</table>
+<p><strong>結論：</strong> 相關性隨次數<strong>上升，但不該是線性</strong>。需要<strong>次線性 (Sublinear)</strong> 的縮放方法。</p>
+<p><strong>Log 詞頻加權公式（必背）：</strong></p>
+<pre>       ┌  1 + log₁₀(tf)    if tf > 0
+w_t,d = ┤
+       └  0                if tf = 0</pre>
+<p><strong>為什麼加 1？</strong>因為 log(0) = -∞ 會爆炸；加 1 讓 tf=1 時 w=1（合理基準）</p>
+<p><strong>為什麼用 log？</strong>製造 <strong>Sublinear Scaling</strong>，次數變多時加分速度變慢</p>
+<p><strong>權重數字（必記）：</strong></p>
+<table>
+<tr><th>tf</th><th>w</th></tr>
+<tr><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td></tr>
+<tr><td>2</td><td>1.3</td></tr>
+<tr><td><strong>10</strong></td><td><strong>2</strong></td></tr>
+<tr><td><strong>1000</strong></td><td><strong>4</strong></td></tr>
+</table>
+<p>→ <strong>tf 變 10 倍，w 只多 1</strong></p>
+<p><strong>文件-查詢評分公式：</strong></p>
+<pre>Score(q, d) = Σ  (1 + log₁₀(tf_t,d))
+            t ∈ q ∩ d</pre>
+
+<h2>影片 13 - Inverse Document Frequency Weighting</h2>
+
+<h3>Q6：What is Inverse Document Frequency (IDF)? Write the formula</h3>
+<p><span class="answer-label">A：</span></p>
+<p><strong>核心觀念：</strong> <strong>稀有詞比常見詞更有資訊量</strong>，IDF 用來量化這種差異。</p>
+<p><strong>公式（必背）：</strong></p>
+<pre>IDF(t) = log₁₀(N / df_t)
+
+N      = 文件集合的總文件數
+df_t   = 包含詞項 t 的文件數</pre>
+<p><strong>為什麼用 log？</strong>跟 TF 一樣，避免極端值造成過大影響。</p>
+<p><strong>IDF 數值範例（假設 N = 1,000,000）：</strong></p>
+<table>
+<tr><th>df（出現於幾個文件）</th><th>IDF</th></tr>
+<tr><td>1（極稀有）</td><td><strong>6</strong></td></tr>
+<tr><td>100（稍常見）</td><td>4</td></tr>
+<tr><td>10,000</td><td>2</td></tr>
+<tr><td>1,000,000（全部都有）</td><td><strong>0</strong>（無區分價值）</td></tr>
+</table>
+<p>→ <strong>df 越大，IDF 越小</strong>（常見詞不重要）</p>
+
+<hr>
+
+<h3>Q7：Why is IDF useful? What's the difference between Document Frequency and Collection Frequency?</h3>
+<p><span class="answer-label">A：</span></p>
+<p><strong>為什麼 IDF 有用？</strong></p>
+<ol>
+<li><strong>罕見詞（如 quantum）→ IDF 高</strong>，是好的「鑑別詞」</li>
+<li><strong>常見詞（如 the）→ IDF 接近 0</strong>，幾乎不影響評分</li>
+<li><strong>解決 Jaccard 的問題</strong>：不再把 "the" 跟 "quantum" 當同樣重要</li>
+</ol>
+<p><strong>重要特性：</strong> IDF 對<strong>單一詞項查詢</strong>無影響</p>
+<blockquote>因為 IDF 只是對所有文件<strong>統一縮放</strong>，不改變排序。<br>
+<strong>IDF 只在多詞查詢時才發揮作用</strong>（區分查詢中不同詞的重要性）</blockquote>
+<p><strong>Document Frequency vs Collection Frequency：</strong></p>
+<table>
+<tr><th></th><th>Document Frequency (df)</th><th>Collection Frequency (cf)</th></tr>
+<tr><td>定義</td><td>包含詞 t 的<strong>文件數</strong></td><td>詞 t 在集合中<strong>出現的總次數</strong></td></tr>
+<tr><td>例子</td><td colspan="2">"try" 出現在很多文件但每次都只 1 次 → df 高、cf 高</td></tr>
+<tr><td>例子</td><td colspan="2">"insurance" 集中在保險文件，但每篇出現很多次 → df <strong>低</strong>、cf 高</td></tr>
+</table>
+<p>→ <strong>DF 比 CF 更適合用於檢索</strong>，能區分「廣泛但淺薄」 vs 「集中且深入」的詞</p>
+
+<h2>影片 14 - TF-IDF Weighting</h2>
+
+<h3 class="star">⭐ Q8：Write the TF-IDF formula. Why is it the most famous weighting scheme?</h3>
+<p><span class="answer-label">A：</span></p>
+<p><strong>TF-IDF 公式（必背！期末考必考）：</strong></p>
+<pre>TF-IDF(t, d) = (1 + log₁₀ tf_t,d) × log₁₀(N / df_t)
+             ─────────────┬────── × ─────────┬──────
+                  TF 部分              IDF 部分</pre>
+<p><strong>⚠️ 注意：</strong> 中間的 <code>-</code> 是<strong>連字號 (hyphen)</strong>，不是減號！TF 和 IDF 之間是<strong>相乘</strong>，不是相減。</p>
+<p><strong>為什麼是最重要的加權方案？</strong></p>
+<blockquote>「<strong>如果你只能學一個 IR 加權方法，就是 TF-IDF</strong>」（Manning 原話）</blockquote>
+<p><strong>TF-IDF 兩大特性：</strong></p>
+<ol>
+<li><strong>權重隨詞在文件出現次數增加而增加</strong>（來自 TF）</li>
+<li><strong>權重隨詞在集合中的稀有度增加而增加</strong>（來自 IDF）</li>
+</ol>
+<p>→ 結合了「<strong>這個詞在這個文件多重要</strong>」+「<strong>這個詞整體多稀有</strong>」</p>
+<p><strong>解決了 Jaccard 的兩個問題：</strong></p>
+<table>
+<tr><th>Jaccard 限制</th><th>TF-IDF 解決方式</th></tr>
+<tr><td>不考慮詞頻</td><td>TF 部分搞定</td></tr>
+<tr><td>不分罕見/常見</td><td>IDF 部分搞定</td></tr>
+</table>
+
+<hr>
+
+<h3>Q9：How do we score a document using TF-IDF for a multi-term query?</h3>
+<p><span class="answer-label">A：</span></p>
+<p><strong>評分公式：</strong></p>
+<pre>Score(q, d) = Σ  TF-IDF(t, d)
+            t ∈ q ∩ d</pre>
+<p><strong>步驟：</strong></p>
+<ol>
+<li>找出查詢和文件<strong>共有</strong>的詞 (t ∈ q ∩ d)</li>
+<li>對每個共有詞，算 <strong>TF-IDF(t, d)</strong></li>
+<li>全部加總 = 該文件對查詢的分數</li>
+</ol>
+<p><strong>範例（簡化版）：</strong></p>
+<pre>Query:    "best car insurance"
+Doc 1:    "car insurance auto insurance" (有 car, insurance)
+
+共有詞：car, insurance
+
+假設：
+  car:        tf=1, df=18,000   → TF-IDF = (1+0) × log(10^6/18000) ≈ 1.7
+  insurance:  tf=2, df=10,000   → TF-IDF = (1+0.3) × log(10^6/10000) ≈ 2.6
+
+Score(q, Doc1) = 1.7 + 2.6 = 4.3</pre>
+<p><strong>向量表示演進（重要觀念）：</strong></p>
+<pre>Boolean：  Binary Vector  [0, 1, 1, 0]     ← 0/1
+TF：       Count Vector   [0, 3, 7, 0]     ← 自然數
+TF-IDF：   Weight Vector  [0, 2.6, 1.7, 0] ← 實數值 ⭐</pre>
+
+<hr>
+
+<h3>Q10：Trace the evolution from Jaccard to TF-IDF</h3>
+<p><span class="answer-label">A：</span></p>
+<p>整個 Ranked Retrieval 加權方案的演進：</p>
+<pre>1. Jaccard Coefficient
+   公式：|A ∩ B| / |A ∪ B|
+   問題：不考慮詞頻、不分罕見/常見
+
+         ↓ 解決「不考慮詞頻」
+
+2. Term Frequency (TF)
+   公式：w = 1 + log₁₀(tf)
+   進步：考慮詞頻，用 log 做次線性縮放
+   剩問題：還是不分罕見/常見
+
+         ↓ 解決「不分罕見/常見」
+
+3. Inverse Document Frequency (IDF)
+   公式：log₁₀(N / df)
+   進步：罕見詞高分、常見詞低分
+   特點：只在多詞查詢時有用
+
+         ↓ TF 和 IDF 合體
+
+4. TF-IDF Weighting ⭐
+   公式：(1 + log₁₀ tf) × log₁₀(N/df)
+   結合：詞頻 × 稀有度
+   結果：IR 最經典的加權方案</pre>
+<p><strong>核心串聯：</strong></p>
+<blockquote><strong>Jaccard 太簡單 → 加 TF 考慮詞頻 → 再加 IDF 區分稀有度 → 合體變 TF-IDF</strong></blockquote>
+<p><strong>每階段解決的問題：</strong></p>
+<table>
+<tr><th>階段</th><th>文件向量</th><th>解決的問題</th></tr>
+<tr><td>Boolean</td><td>Binary [0,1]</td><td>（無評分，引出 Ranked）</td></tr>
+<tr><td>Jaccard</td><td>Set</td><td>開始有評分</td></tr>
+<tr><td>TF</td><td>Count Vector</td><td>詞頻多 = 更相關</td></tr>
+<tr><td>IDF</td><td>（只是縮放係數）</td><td>稀有詞 = 更重要</td></tr>
+<tr><td><strong>TF-IDF</strong></td><td><strong>Weight Vector（實數值）</strong></td><td><strong>詞頻 + 稀有度合體</strong></td></tr>
+</table>
+
+</body>
+</html>

@@ -228,11 +228,45 @@ df_t   = 包含詞項 t 的文件數
 
 ---
 
-### Q7：Why is IDF useful? What's the difference between Document Frequency and Collection Frequency?
+### ⭐ Q7：Distinguish between Term Frequency (TF), Document Frequency (DF), and Collection Frequency (CF). Why is IDF useful?
 
 **A：**
 
+**三種 Frequency 的差別（教授特別提醒易混淆）⚠️：**
+
+| 名稱 | 縮寫 | 計算範圍 | 答的是什麼 |
+|------|------|---------|----------|
+| **Term Frequency** | **TF** | **單一文件** | 詞 t 在**這篇文件**出現幾次 |
+| **Document Frequency** | **DF** | **整個集合** | **幾篇文件**包含詞 t |
+| **Collection Frequency** | **CF** | **整個集合** | 詞 t 在**整個集合總共**出現幾次 |
+
+**範例（一個簡單集合）：**
+
+```text
+Doc 1: "cat cat dog"
+Doc 2: "cat bird"
+Doc 3: "dog dog dog"
+
+對「cat」這個詞：
+  TF(cat, Doc 1) = 2  ← 在 Doc 1 出現 2 次
+  TF(cat, Doc 2) = 1
+  TF(cat, Doc 3) = 0
+
+  DF(cat) = 2         ← Doc 1 和 Doc 2 有 cat（2 篇）
+  CF(cat) = 3         ← 整個集合總共出現 3 次（2+1+0）
+```
+
+**速記口訣：**
+
+> **TF = 在哪篇出現幾次**（單篇）
+> **DF = 幾篇有**（集合）
+> **CF = 總共幾次**（集合）
+
+---
+
 **為什麼 IDF 有用？**
+
+IDF 是用 **DF** 算的：`IDF = log₁₀(N / DF)`
 
 1. **罕見詞（如 quantum）→ IDF 高**，是好的「鑑別詞」
 2. **常見詞（如 the）→ IDF 接近 0**，幾乎不影響評分
@@ -243,15 +277,27 @@ df_t   = 包含詞項 t 的文件數
 > 因為 IDF 只是對所有文件**統一縮放**，不改變排序。
 > **IDF 只在多詞查詢時才發揮作用**（區分查詢中不同詞的重要性）
 
-**Document Frequency vs Collection Frequency：**
+---
 
-| | Document Frequency (df) | Collection Frequency (cf) |
+**為什麼用 DF 不用 CF？**
+
+DF 和 CF 都是「集合層級」的統計，但**用途不同**：
+
+| | Document Frequency (DF) | Collection Frequency (CF) |
 |--|-------------------------|---------------------------|
 | 定義 | 包含詞 t 的**文件數** | 詞 t 在集合中**出現的總次數** |
-| 例子 | "try" 出現在很多文件但每次都只 1 次 → df 高、cf 高 |
-| 例子 | "insurance" 集中在保險文件，但每篇出現很多次 → df **低**、cf 高 |
 
-→ **DF 比 CF 更適合用於檢索**，因為 DF 能區分「廣泛但淺薄」 vs 「集中且深入」的詞
+**經典對比範例：**
+
+| 詞 | 分佈特性 | DF | CF |
+|----|---------|-----|-----|
+| **try** | 很多文件都有，但每篇只 1 次 | **高** | **高** |
+| **insurance** | 集中在保險文件，每篇出現多次 | **低** | **高** |
+
+→ **DF 比 CF 更適合用於檢索**：
+
+- CF 看不出「廣泛但淺薄」vs「集中且深入」的差別
+- DF 能區分這兩種詞，更能反映「鑑別力」
 
 ---
 

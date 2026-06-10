@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>期末考 A4 速記表</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0;
+    color: #000;
+  }
+
+  h1 {
+    font-size: 13pt;
+    text-align: center;
+    margin: 0 0 5pt 0;
+    padding-bottom: 3pt;
+    border-bottom: 1.5pt solid #000;
+  }
+
+  h2 {
+    font-size: 10.5pt;
+    margin: 6pt 0 3pt 0;
+    padding: 2pt 4pt;
+    background: #e0e0e0;
+    border-left: 3pt solid #000;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2pt 0;
+    font-size: 8.5pt;
+  }
+
+  th, td {
+    border: 0.5pt solid #555;
+    padding: 1.5pt 3pt;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #d0d0d0;
+    font-weight: bold;
+  }
+
+  td:first-child {
+    width: 24pt;
+    text-align: center;
+    font-weight: bold;
+    background: #f0f0f0;
+  }
+
+  pre {
+    background: #f5f5f5;
+    border: 0.5pt solid #888;
+    padding: 3pt 5pt;
+    margin: 2pt 0;
+    font-size: 8pt;
+    line-height: 1.25;
+    font-family: "Consolas", "Menlo", monospace;
+    white-space: pre;
+    overflow: hidden;
+  }
+
+  strong {
+    background: #fff099;
+    padding: 0 1pt;
+  }
+
+  .danger {
+    background: #ffe5e5;
+    border-left: 3pt solid #c00;
+    padding: 4pt 6pt;
+    margin: 3pt 0;
+    font-size: 8.5pt;
+  }
+
+  .danger ol {
+    margin: 2pt 0 2pt 16pt;
+    padding: 0;
+  }
+
+  .danger li {
+    margin-bottom: 1.5pt;
+  }
+
+  .two-col {
+    display: flex;
+    gap: 6pt;
+  }
+
+  .two-col > div {
+    flex: 1;
+  }
+
+  @media print {
+    body {
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>期末考 A4 速記表 (Ranked Retrieval / TF-IDF)</h1>
+
+<h2>10 題關鍵字（缺即扣分）</h2>
+<table>
+  <tr><th style="width:24pt;">#</th><th>必寫關鍵字</th></tr>
+  <tr><td>Q1</td><td>Boolean → <strong>Feast or Famine</strong>（AND少/OR多）→ Ranked → <strong>Scoring (0~1)</strong> + <strong>只看前面</strong></td></tr>
+  <tr><td>Q2</td><td>5 面向：<strong>Exact Match / Set / Boolean Query / 專家</strong> ↔ <strong>Scoring / Ranked List / Free Text / 一般人</strong></td></tr>
+  <tr><td>Q3</td><td><strong>|A∩B| / |A∪B|</strong> + 範例 1/6 + <strong>缺 TF + 缺稀有度</strong></td></tr>
+  <tr><td>Q4</td><td>Bag of Words = <strong>不管詞序、只管詞頻</strong> + <strong>John/Mary 反向同向量</strong></td></tr>
+  <tr><td>Q5</td><td><strong>w = 1 + log₁₀(tf)</strong> if tf&gt;0 + 避免 log(0)=-∞ + <strong>Sublinear Scaling</strong> + tf=10→w=2</td></tr>
+  <tr><td>Q6</td><td><strong>IDF = log₁₀(N/df)</strong> + N=10⁶, df=1 → IDF=6 + 全部都有 → IDF=0</td></tr>
+  <tr><td>Q7</td><td>IDF 只對<strong>多詞查詢</strong>有用 + <strong>DF</strong>（文件數）vs <strong>CF</strong>（總次數）→ try (df 高) vs insurance (df 低)</td></tr>
+  <tr><td>Q8</td><td>⭐ <strong>TF-IDF = (1 + log₁₀ tf) × log₁₀(N/df)</strong> + <strong>連字號不是減號</strong> + 詞頻 × 稀有度</td></tr>
+  <tr><td>Q9</td><td><strong>Score(q,d) = Σ TF-IDF(t,d)</strong> for t ∈ q∩d + 向量演進 Binary→Count→<strong>Weight</strong></td></tr>
+  <tr><td>Q10</td><td><strong>Jaccard（無TF/IDF）→ TF（次線性）→ IDF（稀有度）→ TF-IDF（合體）</strong></td></tr>
+</table>
+
+<div class="two-col">
+  <div>
+    <h2>核心公式（必背）</h2>
+<pre>TF:     w = 1 + log₁₀(tf)  if tf>0
+                  = 0          if tf=0
+
+IDF:    IDF(t) = log₁₀(N / df_t)
+
+TF-IDF: (1+log₁₀ tf) × log₁₀(N/df) ⭐
+
+Score:  Σ TF-IDF(t,d)
+        for t ∈ q∩d</pre>
+  </div>
+  <div>
+    <h2>數字記憶表</h2>
+<pre>tf=1     → w=1
+tf=2     → w=1.3
+tf=10    → w=2
+tf=1000  → w=4
+
+(N=10⁶)
+df=1     → IDF=6
+df=100   → IDF=4
+df=10K   → IDF=2
+df=10⁶   → IDF=0</pre>
+  </div>
+</div>
+
+<div class="danger">
+  <strong>⚠️ 三大死穴</strong>
+  <ol>
+    <li><strong>Q8 TF-IDF 是相乘不是相減</strong>（中間的 <code>-</code> 是連字號，不是減號）</li>
+    <li><strong>Q7 IDF 對單詞查詢無影響</strong>（只在多詞查詢時才有用）</li>
+    <li><strong>Q4 Bag of Words 致命例子是 John/Mary</strong>（兩句向量相同、意思相反）</li>
+  </ol>
+</div>
+
+<h2>整體演進邏輯（Q10 用）</h2>
+<pre>Boolean (Exact Match, 無排名)
+   ↓ 解決 Feast/Famine
+Ranked Retrieval (Scoring 0~1)
+   ↓ 開始評分
+Jaccard (|A∩B|/|A∪B|) ← 缺 TF + 缺 IDF
+   ↓ 加詞頻
+TF (1 + log₁₀ tf, Sublinear)
+   ↓ 加稀有度
+IDF (log₁₀ N/df)
+   ↓ 合體
+TF-IDF ⭐ 經典加權</pre>
+
+</body>
+</html>

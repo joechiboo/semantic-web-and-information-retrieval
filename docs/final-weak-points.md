@@ -1,147 +1,180 @@
-# 期末考弱點追蹤
+# 期末考弱點追蹤（按優先度排序）
 
-> 每題練習後記錄缺漏的關鍵字、概念、計算
-> 考前最後衝刺時，**只看這份就好**
-
----
-
-## Q1 — Feast or Famine + Why Ranked Retrieval
-
-### ❌ 第一次練習缺漏
-
-1. **沒明確說是 Boolean Retrieval 的問題**
-2. **沒解釋為什麼兩極化**（AND 太嚴格、OR 太寬鬆）
-3. **沒提到 Scoring 0~1 這個關鍵字**
-4. **沒解釋為何 Ranked 解決 Feast or Famine**（使用者只看前面幾筆）
-
-### ⭐ 必寫英文關鍵字
-
-- **Feast or Famine Problem**
-- **Scoring**（0~1）
-- **Ranking**
-- **Boolean Retrieval**（要明確指出是它的問題）
-
-### 一句話補強
-
-> Boolean Retrieval 的 Feast or Famine：AND 太少、OR 太多 → Ranked Retrieval 給每個文件 0~1 的 Scoring 排序，使用者只看前面幾筆
+> 時間不夠時，**從上往下練**（紅色最弱、需要最多練習）
+> 更新日期：2026-06-10
 
 ---
 
-## Q2 — Boolean vs Ranked 差異
+## 🔴 最弱（優先練習）
 
-### ❌ 第一次練習：直接看答案（沒概念）
+### Q1 — Feast or Famine + Why Ranked Retrieval
 
-### ⭐ 必記 5 個面向
+**練了兩次都 65%，沒進步！**
 
-| 面向 | Boolean | Ranked |
-|------|---------|--------|
-| 匹配方式 | Exact Match | Scoring (0~1) |
-| 結果 | Set | Ranked List |
-| 查詢語言 | Boolean Query | **Free Text Queries** |
-| Feast/Famine | 有 | 解決 |
-| 適合對象 | 專家 | 一般使用者 |
+**4 個必補的點：**
+1. 明確說是 **Boolean Retrieval** 的問題
+2. 解釋 AND/OR 為什麼兩極化
+3. 寫 **Scoring (0~1)** 關鍵字
+4. 解釋為何 Ranked 解決（**使用者只看前面幾筆**）
 
-### 一句話記法
-
-> Boolean 是「**精確匹配 + 集合 + 專家**」
-> Ranked 是「**評分排序 + Free Text + 一般人**」
+**口訣：** Boolean F/F → Ranked Scoring → 只看前面
 
 ---
 
-## Q3 — Jaccard Coefficient
+### Q2 — Boolean vs Ranked 差異
 
-### ❌ 第一次練習缺漏
+**40%，5 個面向只寫 2 個**
 
-- 公式 ✓ 對（A ∩ B / A ∪ B）
-- ❌ 忘了計算範例
-- ❌ 忘了兩個限制
+**必記 5 面向：**
 
-### ⭐ 必背三項
+| Boolean | Ranked |
+|---------|--------|
+| Exact Match | Scoring (0~1) |
+| Set | Ranked List |
+| Boolean Query | **Free Text Queries** ⭐ |
+| 有 F/F | 解決 |
+| 專家 | 一般使用者 |
 
-**1. 公式：** `Jaccard(A, B) = |A ∩ B| / |A ∪ B|`
-
-**2. 範例：**
-- Q = {ides, of, march}
-- Doc = {caesar, died, in, march}
-- Jaccard = 1/6 ≈ 0.17
-
-**3. 兩個限制（必背）：**
-- 不考慮**詞頻 (Term Frequency)** → 引出 TF（影片 12）
-- 不分**罕見詞 vs 常見詞** → 引出 IDF（影片 13）
-
-### 一句話記法
-
-> Jaccard = 交集/聯集，問題：詞頻和稀有度都不管
+**最容易漏：Free Text Queries**
 
 ---
 
-## Q4 — Bag of Words 限制
+### Q5 — Log 詞頻加權
 
-### ❌ 第一次練習：完全沒印象
+**公式對、理由錯**
 
-### ⭐ 必背
+**錯誤理解：** 「< 10 的 log = 0」
+**正確：** `log(0) = -∞` 會爆炸 → 分兩種情況
 
-**核心特性：** 不考慮詞序，只考慮詞頻
+**必背：**
 
-**演進：**
-```text
-Binary Vector [0,1,1] → Count Vector [0,3,7]
-```
-
-**致命例子：**
-- "John is quicker than Mary"
-- "Mary is quicker than John"
-- → **向量完全相同，但意思相反**
-
-### 一句話記法
-
-> Bag of Words = 不管順序、只管次數 → John/Mary 例子
-
----
-
-## Q5 — Log 詞頻加權
-
-### ❌ 第一次練習缺漏
-
-- 公式方向對（1 + log）✓
-- **但理由說錯**：說「< 10 的 log = 0」（錯！）
-- 正確：**log(0) = -∞** 會壞掉，所以要分兩種情況
-
-### ⭐ 必背三項
-
-**1. 公式：**
 ```text
 w = 1 + log₁₀(tf)   if tf > 0
 w = 0               if tf = 0
 ```
 
-**2. 權重數字：**
-- tf = 1 → w = 1
-- tf = 10 → w = 2
-- tf = 1000 → w = 4
-- → **tf 變 10 倍，w 只多 1**
+**為何用 log：** **Sublinear Scaling**（次線性增長）
 
-**3. 為什麼用 log：**
-- **Sublinear Scaling**（次線性增長）
-- 避免「出現 30 次 = 30 倍相關」的不合理線性假設
-
-### 一句話記法
-
-> log(0) = -∞ → 分兩段；用 log 製造 Sublinear Scaling
+**數字：** tf=10 → w=2, tf=1000 → w=4
 
 ---
 
-## Q6-Q10
+### Q6 — IDF 公式
 
-（看完影片 13、14 後補上）
+**60%（數字算錯 + 沒寫公式）**
+
+**錯誤：** 100000（10⁵）vs 1000000（10⁶）搞混
+
+**必寫：**
+
+```text
+IDF(t) = log₁₀(N / df_t)
+```
+
+**數字（N = 10⁶ = 1,000,000）：**
+- df = 1 → IDF = 6
+- df = 10⁶ → IDF = 0
 
 ---
 
-## 📌 最後衝刺速記（考前一晚看）
+### Q8 — TF-IDF 公式 ⭐ 必考
 
-> 這區塊會在所有題目練完後，整理出每題「**最容易漏寫的關鍵字**」
+**60%（公式不精確）**
 
-| Q | 最易漏 |
-|---|--------|
-| Q1 | Scoring (0~1) + 為何解決 Feast/Famine |
-| ... | ... |
+**錯誤寫法：** `1 + log_t,d × log(N/d_t)`
+**正確：** `(1 + log₁₀ tf_t,d) × log₁₀(N / df_t)`
+
+**死穴：中間是相乘 ×，不是相減 -**
+
+**必寫的解釋：**
+- TF 部分：詞在文件多重要
+- IDF 部分：詞整體多稀有
+- Manning：「只能學一個 IR 加權方法就學這個」
+
+---
+
+## 🟡 中等（看過答案，沒測試過）
+
+### Q3 — Jaccard Coefficient
+
+**重點：**
+- 公式：`|A∩B| / |A∪B|`
+- 範例：march = 1/6
+- **兩個限制：不考慮詞頻、不分罕見/常見**
+
+### Q4 — Bag of Words
+
+**重點：**
+- 不考慮詞序、只考慮詞頻
+- **John/Mary 例子**（向量同、意思反）
+
+### Q9 — TF-IDF 評分
+
+**剛看答案，要再測試**
+
+```text
+Score(q, d) = Σ TF-IDF(t, d)
+            t ∈ q ∩ d
+```
+
+**步驟：**
+1. 找出查詢和文件**共有**的詞
+2. 對每個共有詞算 TF-IDF
+3. 全部加總
+
+---
+
+## 🟢 較強（不用花太多時間）
+
+### Q7 — TF / DF / CF 三方對比
+
+**80%，三個 freq 全對 ⭐**
+
+**還要加：**
+- IDF 只對**多詞查詢**有用
+- try vs insurance 例子（DF 高/低 vs CF 都高）
+
+---
+
+## ⚪ 還沒練
+
+### Q10 — Jaccard → TF → IDF → TF-IDF 演進
+
+**綜合題，最後再練**
+
+---
+
+## 📌 時間不夠時的衝刺順序
+
+**最後 30 分鐘怎麼用：**
+
+1. **Q1**（5 min）— 重寫一次完整答案
+2. **Q8 公式**（3 min）— 默寫 `(1 + log tf) × log(N/df)`
+3. **Q6 + Q7**（5 min）— IDF 公式 + TF/DF/CF
+4. **Q5**（5 min）— Log 詞頻公式 + Sublinear
+5. **Q2**（5 min）— 5 面向（特別記 Free Text Queries）
+6. **Q10**（5 min）— 演進邏輯（Jaccard→TF→IDF→TF-IDF）
+7. 看 [A4 速查表](final-cheatsheet-a4.md)（2 min）
+
+---
+
+## 🚨 三大死穴
+
+1. **Q8：TF-IDF 是相乘 ×，不是相減 -**（連字號陷阱）
+2. **Q7：IDF 對單詞查詢無影響**（只在多詞查詢有用）
+3. **Q4：Bag of Words 致命例子是 John/Mary**
+
+---
+
+## 必背公式（默寫到會）
+
+```text
+TF:     w = 1 + log₁₀(tf)         if tf > 0
+              0                    if tf = 0
+
+IDF:    IDF(t) = log₁₀(N / df_t)
+
+TF-IDF: (1 + log₁₀ tf) × log₁₀(N / df)   ⭐
+
+Score:  Score(q,d) = Σ TF-IDF(t,d)   for t ∈ q∩d
+```
