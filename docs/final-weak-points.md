@@ -44,8 +44,27 @@
 
 ### Q7 必背：兩個關鍵點
 
-1. **IDF 只對多詞查詢有用**
-2. **try（DF高,CF高）vs insurance（DF低,CF高）→ DF 能區分鑑別力**
+**1. IDF 對「單一詞項查詢」無影響，只對「多詞查詢」有用**
+
+精確說法：
+- 單一詞項查詢（single-term query）：IDF 只是常數倍率，不改變排序
+- 多詞查詢（multi-term query）：IDF 區分查詢中不同詞的重要性
+
+**黃金句（英文）：**
+> "IDF has no effect on **single-term queries**; it only matters for **multi-term queries** because it allows the system to distinguish the importance of different terms in the query."
+
+**範例：** Query = `the quantum`
+- the：IDF ≈ 0（常見詞）→ 幾乎不影響
+- quantum：IDF 高（罕見詞）→ 主導排序
+
+**2. DF vs CF（try vs insurance 例子）**
+
+| 詞 | DF | CF | 鑑別力 |
+|----|-----|-----|--------|
+| try | 高（廣泛分散）| 高 | 低 |
+| insurance | 低（集中）| 高 | **高** |
+
+→ CF 都高但 DF 不同 → **DF 能反映鑑別力，CF 不能 → IR 用 DF**
 
 ### Q8 必寫：df_t
 
